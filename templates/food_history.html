@@ -1,0 +1,114 @@
+{% extends 'layout.html' %}
+{% block content %}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+           <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="">Food History</a>
+          </li>
+          <li class="breadcrumb-item active">Overview</li>
+            <li>
+              <div class="container-fluid">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#newclientModal" style="margin-top: -40px;">
+            Add Food
+        </button>
+
+        <div class="modal fade" id="newclientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Add new food</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form action="new_food" method="POST">
+                            <div class="form-group">
+                                <label for="food_name">Food Name</label>
+                                <input required name="food_name" type="text" class="form-control" id="food_name" placeholder="Enter name of feed">
+                            </div>
+
+                             <div class="form-group">
+                                <label for="price">Unit Price</label>
+                                <input required name="price" type="number" class="form-control" id="price" placeholder="Enter unit price">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="quantity">Quantity</label>
+                                <input required name="quantity" type="number" class="form-control" id="quantity" placeholder="Enter quantity of feeds">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" class="form-control btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+          </li>
+        </ol>
+          <!-- Page Heading -->
+        </div>
+        <!-- /.container-fluid -->
+
+                    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <div class="alert alert-info">
+        <li>{{ message }}</li>
+      </div>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+
+
+
+        <!-- DataTables Example -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Food History</div>
+
+            <div>
+
+            </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                  <thead>
+                    <th>Id</th>
+                    <th>Food Name</th>
+                    <th>Unit Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Date</th>
+{#                    <th>Remove</th>#}
+                </thead>
+
+                <tbody>
+                {% for each in foods %}
+                <tr>
+                    <td>{{ each.id }}</td>
+                    <td>{{ each.feed_name }}</td>
+                    <td>{{ each.unit_price }}</td>
+                    <td>{{ each.quantity }}</td>
+                    <td>{{ each.total }}</td>
+                    <td>{{ each.date }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+
+                    </table>
+            </div>
+          </div>
+        </div>
+{% endblock %}

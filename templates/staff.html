@@ -1,0 +1,106 @@
+{% extends 'layout.html' %}
+{% block content %}
+     <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{{ url_for('staff') }}">Staff Information</a>
+          </li>
+{#          <li class="breadcrumb-item">#}
+{#            <a href="">{{ mkunywamaji.name }}</a>#}
+{#          </li>#}
+          <li class="breadcrumb-item active">Overview</li>
+        <li>
+              <div class="container-fluid">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#newclientModal" style="margin-top: -40px;">
+            Add Staff
+        </button>
+
+        <div class="modal fade" id="newclientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Adding new staff</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form action="new_staff" method="POST">
+                            <div class="form-group">
+                                <label for="name">Staff Name</label>
+                                <input required name="name" type="text" class="form-control" id="name" placeholder="Enter Staff's name">
+                            </div>
+
+                             <div class="form-group">
+                                <label for="phone_number">Phone Number</label>
+                                <input required name="phone_number" type="text" class="form-control" id="phone_number" placeholder="Phone number">
+                            </div>
+
+                             <div class="form-group">
+                                <label for="email">Email</label>
+                                <input required name="email" type="email" class="form-control" id="email" placeholder="Email address">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" class="form-control btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+          </li>
+
+        </ol>
+
+             <!-- /.container-fluid -->
+            {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <div class="alert alert-info">
+        <li>{{ message }}</li>
+      </div>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+
+        <!-- DataTables Example -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Staff</div>
+
+            <div>
+
+            </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                     <thead>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+{#                    <th>Remove</th>#}
+                </thead>
+                <tbody>
+                {% for each in staffs %}
+                <tr>
+                    <td>{{ each.id }}</td>
+                    <td>{{ each.name }}</td>
+                    <td>{{ each.phone }}</td>
+                    <td>{{ each.email }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+                    </table>
+            </div>
+          </div>
+        </div>
+{% endblock %}

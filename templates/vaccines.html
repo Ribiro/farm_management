@@ -1,0 +1,114 @@
+{% extends 'layout.html' %}
+{% block content %}
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+           <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="">Vaccine Administration</a>
+          </li>
+          <li class="breadcrumb-item active">{{ this_shed.shed_no }}</li>
+            <li>
+                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#newinvoiceproductModal" >
+            New Vaccine
+        </button>
+        <div class="modal fade" id="newinvoiceproductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Add a new Vaccine</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form action="/new_vaccine/{{ this_shed.id }}" method="POST">
+                            <div class="form-group">
+                                <label for="vaccine_name">Vaccine Name</label>
+                                <input required type="text" name="vaccine_name" class="form-control" id="vaccine_name" placeholder="Enter Vaccine Name">
+                            </div>
+
+                             <div class="form-group" style="display: inline-block">
+                                <label for="date_administered">Administration Date</label>
+                                <input class="form-control" name="date_administered" type="date"  id="date_administered">
+                            </div>
+
+                            <div class="form-group" style="display: inline-block; float: right">
+                                <label for="next_date">Next Administration (optional)</label>
+                                <input class="form-control" name="next_date" type="date"  id="next_date">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cost">Cost</label>
+                                <input class="form-control" name="cost" type="number"  id="cost">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" class="form-control btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+          </li>
+        </ol>
+          <!-- Page Heading -->
+        </div>
+        <!-- /.container-fluid -->
+
+                    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <div class="alert alert-info">
+        <li>{{ message }}</li>
+      </div>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+
+
+
+        <!-- DataTables Example -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Livestock</div>
+
+            <div>
+
+            </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                  <thead>
+                    <th>Id</th>
+                    <th>Vaccine Name</th>
+                    <th>Administration Date</th>
+                    <th>Next Date</th>
+                    <th>Cost</th>
+                </thead>
+
+                <tbody>
+                {% for each in this_shed.vaccines %}
+                <tr>
+                    <td>{{ each.id }}</td>
+                    <td>{{ each.vaccine_name }}</td>
+                    <td>{{ each.date_administered }}</td>
+                    <td>{{ each.next_date }}</td>
+                    <td>{{ each.cost }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+
+                    </table>
+            </div>
+          </div>
+        </div>
+{% endblock %}
+

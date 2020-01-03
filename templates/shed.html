@@ -1,0 +1,156 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <!-- Breadcrumbs-->
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{{ url_for('shed') }}">Sheds Information</a>
+          </li>
+{#          <li class="breadcrumb-item">#}
+{#            <a href="">{{ mkunywamaji.name }}</a>#}
+{#          </li>#}
+          <li class="breadcrumb-item active">Overview</li>
+
+        <li>
+              <div class="container-fluid">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#newclientModal" style="margin-top: -40px;">
+            Add Shed
+        </button>
+
+        <div class="modal fade" id="newclientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Add A New Shed</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        <form action="new_shed" method="POST">
+                            <div class="form-group">
+                                <label for="shed_no">Shed No/Name</label>
+                                <input required name="shed_no" type="text" class="form-control" id="shed_no" placeholder="Enter shed no.">
+                            </div>
+
+                             <div class="form-group">
+                                <label for="swine_name">Livestock Name</label>
+                                <input required name="swine_name" type="text" class="form-control" id="swine_name" placeholder="Enter livestock's name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="quantity">Quantity</label>
+                                <input required name="quantity" type="number" class="form-control" id="quantity" placeholder="Enter no. of livestock">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" class="form-control btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+          </li>
+
+        </ol>
+
+             <!-- /.container-fluid -->
+            {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <div class="alert alert-info">
+        <li>{{ message }}</li>
+      </div>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+
+        <!-- DataTables Example -->
+        <div class="card mb-3">
+          <div class="card-header">
+            <i class="fas fa-table"></i>
+            Sheds</div>
+
+            <div>
+
+            </div>
+          <div class="card-body">
+            <div class="table-responsive">
+                 <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                     <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Shed No</th>
+                            <th>Livestock Name</th>
+                            <th>Quantity</th>
+                            <th>Vaccines</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for each in sheds %}
+                            <tr>
+                                <td>{{ each.id }}</td>
+                                <td>{{ each.shed_no }}</td>
+                                <td>{{ each.swine_name }}</td>
+                                <td>{{ each.quantity }}</td>
+                                <td><a href="/vaccines/{{ each.id }}"><button class="btn btn-info btn-sm">Details</button></a></td>
+                                <td>
+                                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal{{ each.id }}">
+                                    Edit
+                                </button>
+                                <!-- The Modal -->
+                                <div class="modal fade" id="modal{{ each.id }}">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Update {{ each.shed_no }}</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+
+                                            <!-- Modal body -->
+                                            <div class="modal-body">
+                                                <form action="/update_shed/{{ each.id }}" method="post">
+                                                    <div class="form-group">
+                                                        <label for="shed_no">Shed No/Name</label>
+                                                        <input value="{{ each.shed_no }}" required name="shed_no" type="text" class="form-control" id="shed_no" placeholder="Enter shed no.">
+                                                    </div>
+
+                                                     <div class="form-group">
+                                                        <label for="swine_name">Livestock Name</label>
+                                                        <input value="{{ each.swine_name }}" required name="swine_name" type="text" class="form-control" id="swine_name" placeholder="Enter livestock's name">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label for="quantity">Quantity</label>
+                                                        <input value="{{ each.quantity }}" required name="quantity" type="number" class="form-control" id="quantity" placeholder="Enter no. of livestock">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <input type="submit" class="form-control btn btn-primary">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                                <td><a href="/delete_shed/{{ each.id }}"><button class="btn btn-danger btn-sm">Delete</button></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+            </div>
+          </div>
+        </div>
+{% endblock %}
